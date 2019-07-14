@@ -1,4 +1,6 @@
-package smartlog.optimization;
+package com;
+
+import main.java.com.SmartSolver;
 
 /**
  * Hello world!
@@ -8,6 +10,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        SmartSolver solver = new SmartSolver();
+        solver.readInput();
+        solver.preprocess();
+        solver.solve();
+        solver.printSolution();
     }
 }

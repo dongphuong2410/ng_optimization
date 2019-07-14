@@ -55,4 +55,8 @@ public class Request {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+    public String toString() {
+        return "REQ " + id + " : " + weight + " kg of " + desc + " (From " + pickupLoc + " to " + deliveryLoc + ")";
+    }
 }

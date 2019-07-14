@@ -1,19 +1,20 @@
-import java.util.List;
-import java.util.LinkedList;
+package main.java.com;
+
+import java.util.*;
 
 import main.java.com.Location;
 import main.java.com.Request;
 import main.java.com.Vehicle;
 
-class SmartSolver {
+public class SmartSolver {
     private List<Location> locations;
     private List<Vehicle> vehicles;
     private List<Request> requests;
 
     public SmartSolver() {
-        locations = new LinkedList<Location>();
-        vehicles = new LinkedList<Vehicle>();
-        requests = new LinkedList<Request>();
+        locations = new ArrayList<Location>();
+        vehicles = new ArrayList<Vehicle>();
+        requests = new ArrayList<Request>();
     }
 
     public void readInput() {
@@ -63,6 +64,72 @@ class SmartSolver {
     }
 
     public void solve() {
+        System.out.println("START FINDING SOLUTION ...");
+    }
+
+    public void preprocess() {
+        clusterLocations();
+        sortVehicles();
+        sortRequests();
+
+        System.out.println("======VEHICLE LIST======");
+        for (int i = 0; i < vehicles.size(); i++) {
+            System.out.print(vehicles.get(i).getId() + " ");
+        }
+        System.out.println();
+
+        System.out.println("======REQUEST LIST======");
+        for (int i = 0; i < requests.size(); i++) {
+            System.out.println(requests.get(i).toString());
+        }
+    }
+
+    public void printSolution() {
+        int totalDelivered = 0;
+        System.out.println("Schedule of vehicles: ");
+        for (Iterator i = vehicles.iterator(); i.hasNext();) {
+            Vehicle v = (Vehicle) i.next();
+            List<Request> assignedReqs = v.getRequests();
+            if (assignedReqs.size() > 0) {
+                System.out.println("Vehicle " + v.getId() + " " + v.getRequests().size() + " request(s)");
+                totalDelivered += assignedReqs.size();
+            }
+        }
+        
+        System.out.println("TOTAL REQUEST : " + requests.size());
+        System.out.println("DELIVERED REQUEST : " + totalDelivered);
+        System.out.println("REMAIN : " + (requests.size() - totalDelivered));
+    }
+
+    private void clusterLocations() {
+        //TODO
+    }
+
+    private void sortVehicles() {
+        Collections.sort(vehicles, Collections.reverseOrder(new Comparator<Vehicle>() {
+            public int compare(Vehicle vehOne, Vehicle vehTwo) {
+                return (vehOne.getCapacity() - vehTwo.getCapacity());    
+            }
+        }));
+    }
+
+    private void sortRequests() {
+        //Sort requests by weight first
+        Collections.sort(requests, Collections.reverseOrder(new Comparator<Request>() {
+            public int compare(Request reqOne, Request reqTwo) {
+                return (reqOne.getWeight() - reqTwo.getWeight());    
+            }
+        }));
+        //Sort requests one more time, by delivery
+        ArrayList<Request> newRequests = new ArrayList<Request>();
+        for (int i = 0; i < locations.size(); i++) {
+            for (int j = 0; j < requests.size(); j++) {
+                if (requests.get(j).getDeliveryLoc().equals(locations.get(i).getCode())) {
+                    newRequests.add(requests.get(j));
+                }
+            }
+        }
+        requests = newRequests;
     }
 
 }
