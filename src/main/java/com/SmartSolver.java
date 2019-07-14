@@ -7,9 +7,9 @@ import main.java.com.Request;
 import main.java.com.Vehicle;
 
 public class SmartSolver {
-    private List<Location> locations;
-    private List<Vehicle> vehicles;
-    private List<Request> requests;
+    private ArrayList<Location> locations;
+    private ArrayList<Vehicle> vehicles;
+    private ArrayList<Request> requests;
 
     public SmartSolver() {
         locations = new ArrayList<Location>();
@@ -64,7 +64,21 @@ public class SmartSolver {
     }
 
     public void solve() {
-        System.out.println("START FINDING SOLUTION ...");
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (requests.isEmpty()) {
+                break;
+            }
+            Vehicle vehicle = vehicles.get(i);
+            ArrayList<Request> feasibleReqs = getFeasibleRequest(vehicle, requests);
+            for (int j = 0; j < feasibleReqs.size(); j++) {
+                Request toBeAssigned = feasibleReqs.get(j);
+                if (vehicle.getTotalWeight() + toBeAssigned.getWeight() > vehicle.getCapacity()) {
+                    break;
+                }
+                vehicle.addRequest(toBeAssigned);
+                requests.remove(toBeAssigned);
+            }
+        }
     }
 
     public void preprocess() {
@@ -91,14 +105,17 @@ public class SmartSolver {
             Vehicle v = (Vehicle) i.next();
             List<Request> assignedReqs = v.getRequests();
             if (assignedReqs.size() > 0) {
-                System.out.println("Vehicle " + v.getId() + " " + v.getRequests().size() + " request(s)");
+                System.out.println("Vehicle " + v.getId() + " " + v.getRequests().size() + " request(s), " + v.getTotalWeight() + " kg");
+                for (int j = 0; j < assignedReqs.size(); j++) {
+                    System.out.println("\t" + (j+1) + " " +  assignedReqs.get(j).toString());
+                }
                 totalDelivered += assignedReqs.size();
             }
         }
         
         System.out.println("TOTAL REQUEST : " + requests.size());
         System.out.println("DELIVERED REQUEST : " + totalDelivered);
-        System.out.println("REMAIN : " + (requests.size() - totalDelivered));
+        System.out.println("REMAIN : " + requests.size());
     }
 
     private void clusterLocations() {
@@ -130,6 +147,10 @@ public class SmartSolver {
             }
         }
         requests = newRequests;
+    }
+
+    private ArrayList<Request> getFeasibleRequest(Vehicle vehicle, ArrayList<Request> requests) {
+        return (ArrayList<Request>)requests.clone();
     }
 
 }
