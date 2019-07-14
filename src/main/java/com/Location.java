@@ -1,3 +1,5 @@
+package main.java.com;
+
 public class Location {
     private int x;
     private int y;

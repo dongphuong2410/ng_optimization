@@ -1,4 +1,6 @@
-class Vehicle {
+package main.java.com;
+
+public class Vehicle {
     private String id;
     private int capacity;
 

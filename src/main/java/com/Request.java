@@ -1,14 +1,19 @@
-class Request {
+package main.java.com;
+
+public class Request {
     private String id;
     private int weight;
     private String pickupLoc;
     private String deliveryLoc;
+    private String desc;
+    private static int counter;
 
-    public Request(String id, int weight, String pickupLoc, String deliveryLoc) {
-        this.id = id;
+    public Request(String desc, int weight, String pickupLoc, String deliveryLoc) {
+        this.desc = desc;
         this.weight = weight;
         this.pickupLoc = pickupLoc;
         this.deliveryLoc = deliveryLoc;
+        this.id = "REQ-" + (counter++);
     }
 
     public String getId() {
@@ -41,5 +46,13 @@ class Request {
 
     public void setDeliveryLoc(String loc) {
         this.deliveryLoc = loc;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }
