@@ -150,6 +150,7 @@ public class SmartSolver {
     }
 
     private ArrayList<Request> getFeasibleRequest(Vehicle vehicle, ArrayList<Request> requests) {
+        
         return (ArrayList<Request>)requests.clone();
     }
 
