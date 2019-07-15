@@ -5,16 +5,14 @@ import java.util.LinkedList;
 
 import main.java.com.Request;
 import main.java.com.label.LabelSet;
+import main.java.com.label.Label;
 
 public class Vehicle {
     private String id;
     private int capacity;
     private List<Request> assignedReqs;
     private LabelSet labels;
-
-    public Vehicle(String id, int capacity) {
-        this.id = id;
-        this.capacity = capacity;
+public Vehicle(String id, int capacity) { this.id = id; this.capacity = capacity;
         this.assignedReqs = new LinkedList<Request>();
         this.labels = new LabelSet();
     }
@@ -53,5 +51,9 @@ public class Vehicle {
 
     public LabelSet getLabelSet() {
         return labels;
+    }
+
+    public void addLabel(Label label) {
+        this.labels.addLabel(label);
     }
 }

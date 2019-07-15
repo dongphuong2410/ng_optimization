@@ -5,6 +5,9 @@ import java.util.*;
 import main.java.com.Location;
 import main.java.com.Request;
 import main.java.com.Vehicle;
+import main.java.com.label.LabelSet;
+import main.java.com.label.ExclusiveLabel;
+import main.java.com.label.InclusiveLabel;
 
 public class SmartSolver {
     private ArrayList<Location> locations;
@@ -63,6 +66,76 @@ public class SmartSolver {
         requests.add(new Request("Stone", 1100, "Q9-01", "Q9-03"));
     }
 
+    public void readInputWithFoodConstraint() {
+        //Add 12 locations
+        locations.add(new Location(4, 3, "Q1-01"));
+        locations.add(new Location(2, 4, "Q1-02"));
+        locations.add(new Location(3, 6, "Q1-03"));
+        locations.add(new Location(5, 10, "Q3-01"));
+        locations.add(new Location(4, 12, "Q3-02"));
+        locations.add(new Location(5, 13, "Q3-03"));
+        locations.add(new Location(8, 13, "Q3-04"));
+        locations.add(new Location(7, 10, "Q3-05"));
+        locations.add(new Location(11, 7, "Q9-01"));
+        locations.add(new Location(11, 6, "Q9-02"));
+        locations.add(new Location(13, 5, "Q9-03"));
+        locations.add(new Location(13, 3, "Q9-04"));
+
+        //Add some vehicles of 3 types : 1500kg, 1000kg, 500kg
+        for (int i = 1; i <= 10; i++) {
+            vehicles.add(new Vehicle("V1.5T-" + i, 1500));
+        }
+        for (int i = 1; i <= 10; i++) {
+            vehicles.add(new Vehicle("V1.0T-" + i, 1000));
+        }
+        for (int i = 1; i <= 10; i++) {
+            vehicles.add(new Vehicle("V0.5T-" + i, 500));
+        }
+        
+        //Add some requests
+        Request req;
+        req = new Request("Chicken", 50, "Q9-01", "Q1-01");
+        req.addLabel(new ExclusiveLabel("FOOD_CHEMICAL", "FOOD"));
+        requests.add(req);
+        req = new Request("Apple", 200, "Q9-01", "Q1-03");
+        req.addLabel(new ExclusiveLabel("FOOD_CHEMICAL", "FOOD"));
+        requests.add(req);
+        req = new Request("Brocolli", 150, "Q9-01", "Q3-03");
+        req.addLabel(new ExclusiveLabel("FOOD_CHEMICAL", "FOOD"));
+        requests.add(req);
+        req = new Request("Pork", 200, "Q9-01", "Q3-02");
+        req.addLabel(new ExclusiveLabel("FOOD_CHEMICAL", "FOOD"));
+        requests.add(req);
+        req = new Request("Beef", 90, "Q9-01", "Q1-02");
+        req.addLabel(new ExclusiveLabel("FOOD_CHEMICAL", "FOOD"));
+        requests.add(req);
+        req = new Request("Bread", 10, "Q9-01", "Q1-02");
+        req.addLabel(new ExclusiveLabel("FOOD_CHEMICAL", "FOOD"));
+        requests.add(req);
+
+        req = new Request("Clothes", 300, "Q9-01", "Q3-05");
+        requests.add(req);
+        req = new Request("Shoe", 150, "Q9-01", "Q9-02");
+        requests.add(req);
+
+        req = new Request("Axit", 100, "Q9-01", "Q3-04");
+        req.addLabel(new ExclusiveLabel("FOOD_CHEMICAL", "CHEMICAL"));
+        requests.add(req);
+        req = new Request("Shampoo", 300, "Q9-01", "Q1-03");
+        req.addLabel(new ExclusiveLabel("FOOD_CHEMICAL", "CHEMICAL"));
+        requests.add(req);
+        req = new Request("Toothpaste", 200, "Q9-01", "Q3-01");
+        req.addLabel(new ExclusiveLabel("FOOD_CHEMICAL", "CHEMICAL"));
+        requests.add(req);
+
+        req = new Request("Brick", 600, "Q9-01", "Q9-04");
+        requests.add(req);
+        req = new Request("Wood", 700, "Q9-01", "Q9-02");
+        requests.add(req);
+        req = new Request("Stone", 1100, "Q9-01", "Q9-03");
+        requests.add(req);
+    }
+
     public void solve() {
         for (int i = 0; i < vehicles.size(); i++) {
             if (requests.isEmpty()) {
@@ -80,6 +153,7 @@ public class SmartSolver {
             }
         }
     }
+
 
     public void preprocess() {
         clusterLocations();
@@ -150,8 +224,17 @@ public class SmartSolver {
     }
 
     private ArrayList<Request> getFeasibleRequest(Vehicle vehicle, ArrayList<Request> requests) {
-        
-        return (ArrayList<Request>)requests.clone();
+        LabelSet currLabels = vehicle.getLabelSet(); 
+        ArrayList<Request> feasibleReqs = new ArrayList<Request>();
+
+        for (int i = 0; i < requests.size(); i++) {
+            LabelSet reqLabels = requests.get(i).getLabelSet();
+            int dist = currLabels.distanceTo(reqLabels);
+            if (dist == 0) continue;
+            currLabels.combine(reqLabels);
+            feasibleReqs.add(requests.get(i));
+        }
+        return feasibleReqs;
     }
 
 }

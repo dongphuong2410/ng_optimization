@@ -1,6 +1,6 @@
 package main.java.com;
-
-import main.java.com.label.LabelSet;
+import main.java.com.label.LabelSet; 
+import main.java.com.label.Label;
 
 public class Request {
     private String id;
@@ -66,5 +66,9 @@ public class Request {
 
     public LabelSet getLabelSet() {
         return labels;
+    }
+
+    public void addLabel(Label label) {
+        this.labels.addLabel(label);
     }
 }

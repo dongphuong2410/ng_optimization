@@ -1,6 +1,7 @@
 package main.java.com;
 
 import main.java.com.label.LabelSet;
+import main.java.com.label.Label;
 
 public class Location {
     private int x;
@@ -41,5 +42,9 @@ public class Location {
 
     public LabelSet getLabelSet() {
         return labels;
+    }
+
+    public void addLabel(Label label) {
+        this.labels.addLabel(label);
     }
 }

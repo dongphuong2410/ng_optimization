@@ -33,7 +33,7 @@ public class LabelSet {
                 Label lbl_two = j.next();
                 int dist = lbl_one.distanceTo(lbl_two);
                 if (dist == 0)
-                    return Constants.NORMAL_DISTANCE;
+                    return Constants.ZERO_DISTANCE;
                 else {
                     sum += dist;
                     count++;
@@ -41,5 +41,12 @@ public class LabelSet {
             }
         }
         return sum / count;
+    }
+
+    public void combine(LabelSet target) {
+        Iterator<Label> i = target.labels.iterator();
+        while (i.hasNext()) {
+            this.labels.add(i.next());
+        }
     }
 }
