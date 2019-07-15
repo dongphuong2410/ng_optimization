@@ -1,11 +1,14 @@
 package main.java.com;
 
+import main.java.com.label.LabelSet;
+
 public class Request {
     private String id;
     private int weight;
     private String pickupLoc;
     private String deliveryLoc;
     private String desc;
+    private LabelSet labels;
     private static int counter;
 
     public Request(String desc, int weight, String pickupLoc, String deliveryLoc) {
@@ -14,6 +17,7 @@ public class Request {
         this.pickupLoc = pickupLoc;
         this.deliveryLoc = deliveryLoc;
         this.id = "REQ-" + (counter++);
+        this.labels = new LabelSet();
     }
 
     public String getId() {
@@ -58,5 +62,9 @@ public class Request {
 
     public String toString() {
         return "REQ " + id + " : " + weight + " kg of " + desc + " (From " + pickupLoc + " to " + deliveryLoc + ")";
+    }
+
+    public LabelSet getLabelSet() {
+        return labels;
     }
 }

@@ -1,14 +1,18 @@
 package main.java.com;
 
+import main.java.com.label.LabelSet;
+
 public class Location {
     private int x;
     private int y;
     private String code;
+    private LabelSet labels;
 
     public Location(int x, int y, String code) {
         this.x = x;
         this.y = y;
         this.code = code;
+        this.labels = new LabelSet();
     }
 
     public int getX() {
@@ -35,4 +39,7 @@ public class Location {
         this.code = code;
     }
 
+    public LabelSet getLabelSet() {
+        return labels;
+    }
 }

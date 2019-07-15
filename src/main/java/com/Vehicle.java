@@ -4,16 +4,19 @@ import java.util.List;
 import java.util.LinkedList;
 
 import main.java.com.Request;
+import main.java.com.label.LabelSet;
 
 public class Vehicle {
     private String id;
     private int capacity;
     private List<Request> assignedReqs;
+    private LabelSet labels;
 
     public Vehicle(String id, int capacity) {
         this.id = id;
         this.capacity = capacity;
-        assignedReqs = new LinkedList<Request>();
+        this.assignedReqs = new LinkedList<Request>();
+        this.labels = new LabelSet();
     }
 
     public String getId() {
@@ -40,4 +43,15 @@ public class Vehicle {
         return assignedReqs;
     }
 
+    public int getTotalWeight() {
+        int sum = 0;
+        for (int i = 0; i < assignedReqs.size(); i++) {
+            sum += assignedReqs.get(i).getWeight();
+        }
+        return sum;
+    }
+
+    public LabelSet getLabelSet() {
+        return labels;
+    }
 }
