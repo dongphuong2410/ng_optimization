@@ -49,4 +49,14 @@ public class LabelSet {
             this.labels.add(i.next());
         }
     }
+
+    public String toString() {
+        String output = "";
+        Iterator<Label> i = labels.iterator();
+        while (i.hasNext()) {
+            Label lbl = i.next();
+            output += lbl.getType() + "--" + lbl.getValue() + ", ";
+        }
+        return output;
+    }
 }

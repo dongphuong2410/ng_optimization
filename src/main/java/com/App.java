@@ -10,8 +10,9 @@ public class App
 {
     public static void main( String[] args )
     {
-        //testBasic(); 
+        testBasic(); 
         testFoodConstraint();
+        testForbiddenRoadConstraint();
     }
 
     private static void testBasic() {
@@ -28,6 +29,18 @@ public class App
         System.out.println("VEHICLE PLANNING WITH FOOD CONSTRAINT");
         SmartSolver solver = new SmartSolver();
         solver.readInputWithFoodConstraint();
+        solver.preprocess();
+        solver.solve();
+        solver.printSolution();
+    }
+
+    /* Forbidden Road constraint 
+       1.5T vehicle cannot go to district 1 and 3
+    */
+    private static void testForbiddenRoadConstraint() {
+        System.out.println("VEHICLE PLANNING WITH FORBIDDEN ROAD CONSTRAINT");
+        SmartSolver solver = new SmartSolver();
+        solver.readInputWithForbiddenRoadConstraint();
         solver.preprocess();
         solver.solve();
         solver.printSolution();
