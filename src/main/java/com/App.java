@@ -27,6 +27,7 @@ public class App
     /* Food cannot go with chemicals */
     private static void testFoodConstraint() {
         System.out.println("VEHICLE PLANNING WITH FOOD CONSTRAINT");
+        System.out.println("Food cannot go with chemicals");
         SmartSolver solver = new SmartSolver();
         solver.readInputWithFoodConstraint();
         solver.preprocess();
@@ -39,6 +40,7 @@ public class App
     */
     private static void testForbiddenRoadConstraint() {
         System.out.println("VEHICLE PLANNING WITH FORBIDDEN ROAD CONSTRAINT");
+        System.out.println("1.5T vehicle cannot deliver to District 1 & 3");
         SmartSolver solver = new SmartSolver();
         solver.readInputWithForbiddenRoadConstraint();
         solver.preprocess();
